@@ -1,4 +1,4 @@
-import { cart as myCart } from "../data/cart.js";
+import { cart, addingToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let productsHTML = "";
@@ -57,51 +57,45 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
-let timerId;
-
-//ADD-TO-CART BUTTON FUNCTION
-
+//ADD-TO-CART EVENT LISTENER
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
     const productId = button.dataset.productId;
 
-    let itemQuantity = Number(
-      document.querySelector(`.js-quantity-selector-${productId}`).value,
-    );
+    addingToCart(productId, getSelectedQuantity(productId));
+    updateCartQuantity();
+    showAddedMessage(productId);
+  });
+});
 
-    document
-      .querySelector(`.prod-${productId}`)
-      .classList.add("post-added-to-cart");
+function getSelectedQuantity(productId) {
+  return Number(
+    document.querySelector(`.js-quantity-selector-${productId}`).value,
+  );
+}
 
-    clearTimeout(timerId);
-
-    timerId = setTimeout(() => {
-      document
-        .querySelector(`.prod-${productId}`)
-        .classList.remove("post-added-to-cart");
-    }, 2000);
-
-    let matchingItem;
-
-    cart.forEach((item) => {
-      if (productId === item.productId) {
-        matchingItem = item;
-      }
-    });
-
-    if (matchingItem) {
-      matchingItem.quantity += itemQuantity;
-    } else {
-      cart.push({
-        productId: productId,
-        quantity: itemQuantity,
-      });
-    }
-    let cartQuantity = 0;
-    cart.forEach((item) => {
-      cartQuantity += item.quantity;
-    });
+function updateCartQuantity() {
+  //SETTING TOTAL ITEM COUNT
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
 
     document.querySelector(".cart-quantity").innerHTML = cartQuantity;
   });
-});
+}
+
+let timerId;
+
+function showAddedMessage(productId) {
+  document
+    .querySelector(`.prod-${productId}`)
+    .classList.add("post-added-to-cart");
+
+  clearTimeout(timerId);
+
+  timerId = setTimeout(() => {
+    document
+      .querySelector(`.prod-${productId}`)
+      .classList.remove("post-added-to-cart");
+  }, 2000);
+}
