@@ -144,7 +144,7 @@
   opacity: 0;
 }
 
-.added-to-cart img {
+.added-to-cart- img {
   height: 20px;
   margin-right: 5px;
 }
@@ -153,4 +153,13 @@
   width: 100%;
   padding: 8px;
   border-radius: 50px;
+}
+.post-added-to-cart {
+  color: rgb(6, 125, 98);
+  font-size: 16px;
+
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  opacity: 1;
 }
