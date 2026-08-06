@@ -1,6 +1,7 @@
 import { cart, addingToCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency as FC } from "./utils/money.js";
+
 let productsHTML = "";
 
 //LOOPING THROUGH THE ARRAY
@@ -83,6 +84,13 @@ function updateCartQuantity() {
     document.querySelector(".cart-quantity").innerHTML = cartQuantity;
   });
 }
+
+let cartQuantity = 0;
+cart.forEach((cartItem) => {
+  cartQuantity += cartItem.quantity;
+
+  document.querySelector(".cart-quantity").innerHTML = cartQuantity;
+});
 
 let timerId;
 

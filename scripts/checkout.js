@@ -83,8 +83,20 @@ cart.forEach((cartItem) => {
   </div>
 `;
 });
-
 document.querySelector(".order-summary").innerHTML = cartSummaryHTML;
+
+function updateCartQuantity() {
+  let cartQuantity = 0;
+
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+
+  document.querySelector(".js-checkout-middle-section").innerHTML =
+    `Checkout (<a class="return-to-home-link" href="amazon.html">${cartQuantity} items</a>)`;
+}
+
+updateCartQuantity();
 
 //------> Delete Button:
 document.querySelectorAll(".js-delete-link").forEach((link) => {
@@ -97,5 +109,6 @@ document.querySelectorAll(".js-delete-link").forEach((link) => {
       `.js-cart-item-container-${productId}`,
     );
     container.remove();
+    updateCartQuantity();
   });
 });
