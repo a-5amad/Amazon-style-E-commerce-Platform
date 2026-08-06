@@ -1,5 +1,9 @@
+import { cart as myCart } from "../data/cart.js";
+
 let productsHTML = "";
+
 //LOOPING THROUGH THE ARRAY
+
 products.forEach((product) => {
   productsHTML += `  <div class="product-container">
           <div class="product-image-container">
@@ -53,6 +57,8 @@ products.forEach((product) => {
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
 let timerId;
+
+//ADD-TO-CART BUTTON FUNCTION
 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
