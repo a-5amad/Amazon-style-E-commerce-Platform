@@ -40,7 +40,6 @@ export function addingToCart(productId, itemQuantity) {
 }
 
 export function updateQuantity(productId, newQuantity) {
-  newQuantity >= 0 && newQuantity < 1000;
   let matchingItem;
 
   cart.forEach((cartItem) => {
