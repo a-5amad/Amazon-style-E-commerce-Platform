@@ -3,7 +3,9 @@ import {
   removeFromCart,
   updateQuantity,
   updateDeliveryOption,
+  updateCartQuantity,
 } from "../../data/cart.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
 import { products, getProduct } from "../../data/products.js";
 import { formatCurrency as FC, formatCurrency } from "../utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
@@ -12,6 +14,22 @@ import {
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
+
+function addBusinessDays(startDate, businessDays) {
+  let date = startDate;
+  let daysRemaining = businessDays;
+
+  while (daysRemaining > 0) {
+    date = date.add(1, "day");
+
+    const dayOfWeek = date.day();
+    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+      daysRemaining -= 1;
+    }
+  }
+
+  return date;
+}
 
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
@@ -26,7 +44,7 @@ export function renderOrderSummary() {
     const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
+    const deliveryDate = addBusinessDays(today, deliveryOption.deliveryDays);
     const dateString = deliveryDate.format("dddd, MMMM D");
 
     cartSummaryHTML += `
@@ -79,7 +97,7 @@ export function renderOrderSummary() {
 
     deliveryOptions.forEach((deliveryOption) => {
       const today = dayjs();
-      const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
+      const deliveryDate = addBusinessDays(today, deliveryOption.deliveryDays);
       const dateString = deliveryDate.format("dddd, MMMM D");
 
       const priceString =
@@ -115,31 +133,14 @@ export function renderOrderSummary() {
 
   document.querySelector(".order-summary").innerHTML = cartSummaryHTML;
 
-  function updateCartQuantity() {
-    let cartQuantity = 0;
-
-    cart.forEach((cartItem) => {
-      cartQuantity += cartItem.quantity;
-    });
-
-    document.querySelector(".js-checkout-middle-section").innerHTML =
-      `Checkout (<a class="return-to-home-link" href="amazon.html">${cartQuantity} items</a>)`;
-  }
-
-  updateCartQuantity();
+  renderCheckoutHeader();
 
   //------> Delete Button:
   document.querySelectorAll(".js-delete-link").forEach((link) => {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
       removeFromCart(productId);
-
-      //Deleting the HTML from the page
-      const container = document.querySelector(
-        `.js-cart-item-container-${productId}`,
-      );
-      container.remove();
-      updateCartQuantity();
+      renderOrderSummary();
       renderPaymentSummary();
     });
   });
@@ -179,13 +180,10 @@ export function renderOrderSummary() {
         const updatedQuantity = quantityInput;
 
         updateQuantity(productId, updatedQuantity);
-
-        document.querySelector(".quantity-label").innerHTML = updatedQuantity;
-        updateCartQuantity();
       } else {
         alert("Quantity should be in [0, 1000}");
       }
-
+      renderOrderSummary();
       renderPaymentSummary();
     });
   });
