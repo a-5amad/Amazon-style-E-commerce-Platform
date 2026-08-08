@@ -11,6 +11,7 @@ import {
   deliveryOptions,
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
@@ -139,6 +140,7 @@ export function renderOrderSummary() {
       );
       container.remove();
       updateCartQuantity();
+      renderPaymentSummary();
     });
   });
 
@@ -183,6 +185,8 @@ export function renderOrderSummary() {
       } else {
         alert("Quantity should be in [0, 1000}");
       }
+
+      renderPaymentSummary();
     });
   });
 
@@ -191,6 +195,7 @@ export function renderOrderSummary() {
       const { productId, deliveryOptionId } = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId);
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 }
