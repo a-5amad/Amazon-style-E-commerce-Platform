@@ -34,6 +34,11 @@ function addBusinessDays(startDate, businessDays) {
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
 
+  const orderSummaryElement = document.querySelector(".order-summary");
+  if (!orderSummaryElement) {
+    return;
+  }
+
   cart.forEach((cartItem) => {
     const productId = cartItem.productId;
 
@@ -131,7 +136,7 @@ export function renderOrderSummary() {
     return deliveryHTML;
   }
 
-  document.querySelector(".order-summary").innerHTML = cartSummaryHTML;
+  orderSummaryElement.innerHTML = cartSummaryHTML;
 
   renderCheckoutHeader();
 
