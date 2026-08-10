@@ -113,9 +113,9 @@ function Cart(localStorageKey) {
 }
 // const cart = Cart("cart-oop");
 
-// const cartsecond = Cart("cart-business");
+// const cartSecond = Cart("cart-business");
 // cart.loadFromStorage();
-// cartsecond.loadFromStorage();
+// cartSecond.loadFromStorage();
 
 // console.log(cart);
-// console.log(cartsecond);
+// console.log(cartSecond);
