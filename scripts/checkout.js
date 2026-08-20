@@ -9,21 +9,15 @@ import { loadCart } from "../data/cart.js";
 
 renderCheckoutHeader();
 
-new Promise((resolve) => {
-  loadProduct(() => {
-    resolve("sam");
-  });
-})
-  .then((name) => {
-    console.log(name);
+Promise.all([
+  loadProduct(),
 
-    return new Promise((resolve) => {
-      loadCart(() => {
-        resolve();
-      });
+  new Promise((resolve) => {
+    loadCart(() => {
+      resolve();
     });
-  })
-  .then(() => {
-    renderOrderSummary();
-    renderPaymentSummary();
-  });
+  }),
+]).then(() => {
+  renderOrderSummary();
+  renderPaymentSummary();
+});

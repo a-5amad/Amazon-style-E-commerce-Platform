@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "souurce": "/",
+      "destination": "amazon.html"
+    }
+  ]
+}
