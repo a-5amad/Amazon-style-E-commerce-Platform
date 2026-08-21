@@ -3,6 +3,7 @@ import {
   removeFromCart,
   updateQuantity,
   updateDeliveryOption,
+  updateCartQuantity,
 } from "../../data/cart.js";
 import { renderCheckoutHeader } from "./checkoutHeader.js";
 import { products, getProduct } from "../../data/products.js";
@@ -146,6 +147,7 @@ export function renderOrderSummary() {
     link.addEventListener("click", () => {
       const productId = link.dataset.productId;
       removeFromCart(productId);
+      renderCheckoutHeader();
       renderOrderSummary();
       renderPaymentSummary();
     });
