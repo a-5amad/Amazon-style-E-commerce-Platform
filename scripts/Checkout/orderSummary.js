@@ -15,22 +15,6 @@ import {
 } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 
-function addBusinessDays(startDate, businessDays) {
-  let date = startDate;
-  let daysRemaining = businessDays;
-
-  while (daysRemaining > 0) {
-    date = date.add(1, "day");
-
-    const dayOfWeek = date.day();
-    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-      daysRemaining -= 1;
-    }
-  }
-
-  return date;
-}
-
 export function renderOrderSummary() {
   let cartSummaryHTML = "";
 
@@ -49,7 +33,7 @@ export function renderOrderSummary() {
     const deliveryOption = getDeliveryOption(deliveryOptionId);
 
     const today = dayjs();
-    const deliveryDate = addBusinessDays(today, deliveryOption.deliveryDays);
+    const deliveryDate = today.add(deliveryOption.deliveryDays, "day");
     const dateString = deliveryDate.format("dddd, MMMM D");
 
     cartSummaryHTML += `
@@ -102,7 +86,7 @@ export function renderOrderSummary() {
 
     deliveryOptions.forEach((deliveryOption) => {
       const today = dayjs();
-      const deliveryDate = addBusinessDays(today, deliveryOption.deliveryDays);
+      const deliveryDate = today.add(deliveryOption.deliveryDays, "day");
       const dateString = deliveryDate.format("dddd, MMMM D");
 
       const priceString =
