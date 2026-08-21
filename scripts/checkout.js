@@ -8,15 +8,12 @@ import { loadCart } from "../data/cart.js";
 
 renderCheckoutHeader();
 
-Promise.all([
-  loadProduct(),
+async function loadPage() {
+  await loadProduct();
+  await loadCart();
 
-  new Promise((resolve) => {
-    loadCart(() => {
-      resolve();
-    });
-  }),
-]).then(() => {
   renderOrderSummary();
   renderPaymentSummary();
-});
+}
+
+loadPage();

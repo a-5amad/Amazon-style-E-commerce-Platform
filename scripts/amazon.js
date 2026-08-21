@@ -2,12 +2,13 @@ import { cart, addingToCart } from "../data/cart.js";
 import { products, loadProduct } from "../data/products.js";
 import { formatCurrency as FC } from "./utils/money.js";
 
-loadProduct(renderProductsGrid);
+renderProductsGrid();
 
-export function renderProductsGrid() {
+export async function renderProductsGrid() {
   let productsHTML = "";
 
   //LOOPING THROUGH THE ARRAY
+  await loadProduct();
 
   products.forEach((product) => {
     productsHTML += `  <div class="product-container">
