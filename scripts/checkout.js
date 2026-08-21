@@ -9,11 +9,15 @@ import { loadCart } from "../data/cart.js";
 renderCheckoutHeader();
 
 async function loadPage() {
-  await loadProduct();
-  await loadCart();
+  try {
+    await loadProduct();
+    await loadCart();
 
-  renderOrderSummary();
-  renderPaymentSummary();
+    renderOrderSummary();
+    renderPaymentSummary();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 loadPage();
