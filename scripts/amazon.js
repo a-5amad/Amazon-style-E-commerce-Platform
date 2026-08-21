@@ -86,17 +86,16 @@ export async function renderProductsGrid() {
     let cartQuantity = 0;
     cart.forEach((cartItem) => {
       cartQuantity += cartItem.quantity;
-
-      document.querySelector(".cart-quantity").innerHTML = cartQuantity;
     });
+
+    document.querySelector(".cart-quantity").innerHTML = cartQuantity;
   }
 
   let cartQuantity = 0;
   cart.forEach((cartItem) => {
     cartQuantity += cartItem.quantity;
-
-    document.querySelector(".cart-quantity").innerHTML = cartQuantity;
   });
+  document.querySelector(".cart-quantity").innerHTML = cartQuantity;
 
   let timerId;
 

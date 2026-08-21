@@ -3,7 +3,6 @@ import {
   removeFromCart,
   updateQuantity,
   updateDeliveryOption,
-  updateCartQuantity,
 } from "../../data/cart.js";
 import { renderCheckoutHeader } from "./checkoutHeader.js";
 import { products, getProduct } from "../../data/products.js";
@@ -20,6 +19,24 @@ export function renderOrderSummary() {
 
   const orderSummaryElement = document.querySelector(".order-summary");
   if (!orderSummaryElement) {
+    return;
+  }
+
+  if (cart.length === 0) {
+    document.querySelector(".checkout-grid").innerHTML = `
+    <div data-testid="empty-cart-message">
+      Your cart is empty.
+    </div>
+    <a
+      class="button-primary  view-products-link"
+      href="amazon.html"
+      data-testid="view-products-link"
+      style="text-decoration:none; color: black; height: 5vh; display: flex;align-items : center; justify-content: center"
+    >
+      View products
+    </a>
+  `;
+
     return;
   }
 

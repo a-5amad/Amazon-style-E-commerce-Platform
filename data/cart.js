@@ -102,3 +102,8 @@ export async function loadCart() {
 
   console.log(productsData);
 }
+
+export function clearCart() {
+  cart.length = 0;
+  saveToStorage();
+}

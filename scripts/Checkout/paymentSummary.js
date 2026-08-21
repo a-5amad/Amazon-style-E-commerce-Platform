@@ -1,4 +1,4 @@
-import { cart, updateCartQuantity } from "../../data/cart.js";
+import { cart, updateCartQuantity, clearCart } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import { formatCurrency } from "../utils/money.js";
@@ -23,6 +23,7 @@ export function renderPaymentSummary() {
   const totalCents = totalBeforeTax + taxCents;
 
   const paymentSummaryHTML = `
+  
 <div class="payment-summary-title">Order Summary</div>
 
      <div class="payment-summary-row">
@@ -64,7 +65,7 @@ export function renderPaymentSummary() {
         Place your order
         </button>
 
-    `;
+   `;
 
   document.querySelector(".js-payment-summary").innerHTML = paymentSummaryHTML;
 
@@ -84,6 +85,8 @@ export function renderPaymentSummary() {
 
         const order = await response.json();
         addOrder(order);
+
+        clearCart();
       } catch (error) {
         console.log(error);
       }
