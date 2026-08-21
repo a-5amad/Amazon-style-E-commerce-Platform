@@ -66,10 +66,6 @@ export function loadProduct() {
   return promise;
 }
 
-loadProduct().then(() => {
-  console.log("next step");
-});
-
 // export function loadProductObsolete(func) {
 //   const xhr = new XMLHttpRequest();
 

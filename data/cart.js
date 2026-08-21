@@ -105,6 +105,7 @@ export function loadCart(func) {
 
     func();
   });
+
   xhr.open("GET", "https://supersimplebackend.dev/cart");
   xhr.send();
 }
