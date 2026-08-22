@@ -10,7 +10,29 @@ export async function renderProductsGrid() {
   //LOOPING THROUGH THE ARRAY
   await loadProduct();
 
-  products.forEach((product) => {
+  const url = new URL(window.location.href);
+  const search = url.searchParams.get("search");
+
+  let productsToRender = products;
+  if (search) {
+    productsToRender = products.filter((product) => {
+      return (
+        product.name.toLowerCase().includes(search.toLowerCase()) ||
+        product.keywords.some((keyword) =>
+          keyword.toLowerCase().includes(search.toLowerCase()),
+        )
+      );
+    });
+  }
+
+  if (productsToRender.length === 0) {
+    document.querySelector(".js-products-grid").innerHTML = `
+    <h2>No products found for ${search}.</h2>
+  `;
+    return;
+  }
+
+  productsToRender.forEach((product) => {
     productsHTML += `  <div class="product-container">
       <div class="product-image-container">
         <img
@@ -113,3 +135,9 @@ export async function renderProductsGrid() {
     }, 2000);
   }
 }
+
+document.querySelector(".js-search-button").addEventListener("click", () => {
+  const searchValue = document.querySelector(".js-search-bar").value;
+  console.log(searchValue);
+  window.location.href = `amazon.html?search=${searchValue}`;
+});

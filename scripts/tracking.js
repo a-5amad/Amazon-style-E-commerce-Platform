@@ -89,3 +89,9 @@ function updateCartQuantity() {
   });
   document.querySelector(".cart-quantity").innerHTML = cartQuantity;
 }
+
+document.querySelector(".js-search-button").addEventListener("click", () => {
+  const searchValue = document.querySelector(".js-search-bar").value;
+  console.log(searchValue);
+  window.location.href = `amazon.html?search=${searchValue}`;
+});
