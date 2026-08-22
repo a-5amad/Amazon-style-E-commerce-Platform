@@ -36,7 +36,14 @@ function renderTrackingPage() {
     currentStatus = "Delivered";
   }
 
-  let trackingHTML = `<a class="back-to-orders-link link-primary" href="orders.html">
+  let trackingHTML = `<a class="button-primary back-to-orders-link" href="orders.html"
+                      style="text-decoration : none; 
+                      color: black; 
+                      height: 5vh; 
+                      width: 40%;
+                      display: flex;
+                      align-items : center; 
+                      justify-content: center">
           View all orders
         </a>
 
