@@ -1,4 +1,4 @@
-import { orders, saveOrdersToStorage } from "../data/orders.js";
+import { orders } from "../data/orders.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { formatCurrency } from "./utils/money.js";
 import { getProduct } from "../data/products.js";
@@ -8,6 +8,21 @@ renderOrdersPage();
 updateCartQuantity();
 function renderOrdersPage() {
   let ordersHTML = "";
+
+  if (orders.length === 0) {
+    document.querySelector(".orders-grid").innerHTML = `
+    <h2>No order placed yet</h2>
+    <a
+      class="button-primary  view-products-link"
+      href="amazon.html"
+      data-testid="view-products-link"
+      style="text-decoration:none; color: black; height: 5vh; display: flex;align-items : center; justify-content: center"
+    >
+      View products
+    </a>`;
+
+    return;
+  }
 
   orders.forEach((order) => {
     let productHTML = "";
@@ -27,7 +42,7 @@ function renderOrdersPage() {
           ${dayjs(product.estimatedDeliveryTime).format("MMMM D, YYYY")}</div>
             <div class="product-quantity">Quantity: ${product.quantity}</div>
 
-            <button class="buy-again-button button-primary js-buyagain" data-product-id="${product.productId}" data-order-id="${order.id}">
+            <button class="buy-again-button button-primary js-buyagain" data-product-id="${product.productId}">
             <img class="buy-again-icon" src="images/icons/buy-again.png" />
             <span class="buy-again-message">Buy it again</span>
             </button>
@@ -72,20 +87,8 @@ function renderOrdersPage() {
   document.querySelectorAll(".js-buyagain").forEach((button) => {
     button.addEventListener("click", () => {
       const productId = button.dataset.productId;
-      const orderId = button.dataset.orderId;
-
-      const order = orders.find((order) => order.id === orderId);
-      const product = order.products.find(
-        (product) => product.productId === productId,
-      );
-
-      const currentProduct = getProduct(productId);
-
-      product.quantity += 1;
-      order.totalCostCents += currentProduct.priceCents;
 
       addingToCart(productId, 1);
-      saveOrdersToStorage();
       updateCartQuantity();
     });
   });
